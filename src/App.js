@@ -6,8 +6,7 @@ const getCachedPokemons = () => JSON.parse(localStorage.getItem("pokemonList"));
 
 function App() {
     const [loading, setLoading] = useState(false);
-    //const [pokemonList, setPokemonList] = useState(getCachedPokemons());
-    const [pokemonList, setPokemonList] = useState([]);
+    const [pokemonList, setPokemonList] = useState(getCachedPokemons());
 
     const fetchMorePokemons = async () => {
         console.log("fetching more pokemons");
@@ -21,28 +20,28 @@ function App() {
 
         setPokemonList((list) => [...list, ...data.results]);
         setLoading(false);
-        //localStorage.setItem("pokemonList", JSON.stringify(data));
         return data.results;
     };
 
     useEffect(() => {
         console.log("fetching pokemons");
-        /* const cachedPokemons = getCachedPokemons();
-        if (!cachedPokemons) { */
-        fetch(`https://pokeapi.co/api/v2/pokemon`)
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            })
-            .then((data) => {
-                console.log(data.results.length);
-                //localStorage.setItem("pokemonList", JSON.stringify(data));
-                setPokemonList(data.results);
-            })
-            .catch((error) => console.error(error));
+        const cachedPokemons = getCachedPokemons();
+        if (!cachedPokemons) {
+            fetch(`https://pokeapi.co/api/v2/pokemon`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                })
+                .then((data) => {
+                    console.log(data.results.length);
+                    localStorage.setItem("pokemonList", JSON.stringify(data));
+                    setPokemonList(data.results);
+                })
+                .catch((error) => console.error(error));
+        }
     }, [setLoading, setPokemonList]);
 
     return (
@@ -62,7 +61,6 @@ function App() {
                         <button onClick={fetchMorePokemons}>load more</button>
                     )}
                 </ul>
-                {/* {JSON.stringify(pokemonList)} */}
             </div>
         </div>
     );
