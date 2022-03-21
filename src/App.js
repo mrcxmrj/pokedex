@@ -1,62 +1,75 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 
+// cache only stores 20 first pokemons
 const getCachedPokemons = () => JSON.parse(localStorage.getItem("pokemonList"));
 
 function App() {
     const [loading, setLoading] = useState(false);
-    const [pokemonList, setPokemonList] = useState(getCachedPokemons());
+    //const [pokemonList, setPokemonList] = useState(getCachedPokemons());
+    const [pokemonList, setPokemonList] = useState([]);
+
+    const fetchMorePokemons = async () => {
+        console.log("fetching more pokemons");
+        const offset = pokemonList.length;
+        setLoading(true);
+        const response = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`
+        );
+        if (!response.ok) throw response;
+        const data = await response.json();
+
+        setPokemonList((list) => [...list, ...data.results]);
+        setLoading(false);
+        //localStorage.setItem("pokemonList", JSON.stringify(data));
+        return data.results;
+    };
 
     useEffect(() => {
-        const cachedPokemons = getCachedPokemons();
-
-        if (!cachedPokemons) {
-            setLoading(true);
-            fetch("https://pokeapi.co/api/v2/pokemon")
-                .then((response) => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw response;
-                    }
-                })
-                .then((data) => {
-                    console.log(data);
-                    localStorage.setItem("pokemonList", JSON.stringify(data));
-                    setPokemonList(data.results);
-                    setLoading(false);
-                })
-                .catch((error) => console.error(error));
-        }
+        console.log("fetching pokemons");
+        /* const cachedPokemons = getCachedPokemons();
+        if (!cachedPokemons) { */
+        fetch(`https://pokeapi.co/api/v2/pokemon`)
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            })
+            .then((data) => {
+                console.log(data.results.length);
+                //localStorage.setItem("pokemonList", JSON.stringify(data));
+                setPokemonList(data.results);
+            })
+            .catch((error) => console.error(error));
     }, [setLoading, setPokemonList]);
 
-    return loading ? (
-        "loading..."
-    ) : (
+    return (
         <div className="container">
             <h1>Pokedex</h1>
             <div className="list">
                 <Searchbox />
                 <ul>
-                    <li>
-                        <Pokemon />
-                    </li>
-                    <li>
-                        <Pokemon />
-                    </li>
-                    <li>
-                        <Pokemon />
-                    </li>
+                    {pokemonList.map((el) => (
+                        <li key={el.name}>
+                            <Pokemon text={JSON.stringify(el)} />
+                        </li>
+                    ))}
+                    {loading ? (
+                        "loading..."
+                    ) : (
+                        <button onClick={fetchMorePokemons}>load more</button>
+                    )}
                 </ul>
-                {JSON.stringify(pokemonList)}
-                <button>load more</button>
+                {/* {JSON.stringify(pokemonList)} */}
             </div>
         </div>
     );
 }
 
 const Pokemon = (props) => {
-    return <>name, type, sprite</>;
+    return <>{props.text}</>;
 };
 
 const Searchbox = (props) => {
