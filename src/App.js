@@ -6,7 +6,7 @@ const getCachedPokemons = () => JSON.parse(localStorage.getItem("pokemonList"));
 
 function App() {
     const [loading, setLoading] = useState(false);
-    const [pokemonList, setPokemonList] = useState(getCachedPokemons());
+    const [pokemonList, setPokemonList] = useState(getCachedPokemons() || []);
 
     const fetchMorePokemons = async () => {
         console.log("fetching more pokemons");
@@ -18,17 +18,28 @@ function App() {
 
         //checks whether response is successful (status is in the range 200-299)
         //if it's not logs error and returns null
-        if (response.ok) {
-            const data = await response.json();
-
-            setPokemonList((list) => [...list, ...data.results]);
-            setLoading(false);
-            return data.results;
-        } else {
+        if (!response.ok) {
             console.error(response);
             setLoading(false);
             return null;
         }
+
+        const data = await response.json();
+        const results = data.results;
+
+        let detailedResults = await Promise.all(
+            results.map((pokemon) =>
+                fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+                    .then((response) => response.json())
+                    .catch((error) => console.error(error))
+            )
+        );
+        //const final = detailedResults.map((result) => result.json());
+
+        console.log(detailedResults);
+        setPokemonList((list) => [...list, ...data.results]);
+        setLoading(false);
+        return data.results;
     };
 
     useEffect(() => {
@@ -46,7 +57,10 @@ function App() {
                 })
                 .then((data) => {
                     console.log(data.results.length);
-                    localStorage.setItem("pokemonList", JSON.stringify(data));
+                    localStorage.setItem(
+                        "pokemonList",
+                        JSON.stringify(data.results)
+                    );
                     setPokemonList(data.results);
                 })
                 .catch((error) => console.error(error));
