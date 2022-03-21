@@ -14,19 +14,28 @@ function App() {
         setLoading(true);
         const response = await fetch(
             `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`
-        );
-        if (!response.ok) throw response;
-        const data = await response.json();
+        ).catch((error) => console.error(error));
 
-        setPokemonList((list) => [...list, ...data.results]);
-        setLoading(false);
-        return data.results;
+        //checks whether response is successful (status is in the range 200-299)
+        //if it's not logs error and returns null
+        if (response.ok) {
+            const data = await response.json();
+
+            setPokemonList((list) => [...list, ...data.results]);
+            setLoading(false);
+            return data.results;
+        } else {
+            console.error(response);
+            setLoading(false);
+            return null;
+        }
     };
 
     useEffect(() => {
         console.log("fetching pokemons");
         const cachedPokemons = getCachedPokemons();
         if (!cachedPokemons) {
+            setLoading(true);
             fetch(`https://pokeapi.co/api/v2/pokemon`)
                 .then((response) => {
                     if (response.ok) {
@@ -41,6 +50,7 @@ function App() {
                     setPokemonList(data.results);
                 })
                 .catch((error) => console.error(error));
+            setLoading(false);
         }
     }, [setLoading, setPokemonList]);
 
