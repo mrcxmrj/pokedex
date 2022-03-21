@@ -49,6 +49,7 @@ function App() {
             setLoading(true);
             fetchPokemons(`https://pokeapi.co/api/v2/pokemon`).then(
                 (result) => {
+                    localStorage.setItem("pokemonList", JSON.stringify(result));
                     setPokemonList(result);
                     setLoading(false);
                 }
@@ -68,8 +69,13 @@ function App() {
                               <li key={el.name}>
                                   <Pokemon
                                       name={el.name}
-                                      sprite={el.sprite}
-                                      type={el.type}
+                                      sprite={el.sprites.front_default}
+                                      types={el.types
+                                          .map(
+                                              (typesElement) =>
+                                                  typesElement.type.name
+                                          )
+                                          .join(", ")}
                                       height={el.height}
                                       weight={el.height}
                                   />
