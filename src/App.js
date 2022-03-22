@@ -28,11 +28,11 @@ const fetchPokemons = async (url) => {
 function App() {
     const [loading, setLoading] = useState(false);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [pokemonList, setPokemonList] = useState(getCachedPokemons() || []);
+    const [pokemons, setPokemonList] = useState(getCachedPokemons() || []);
 
     const loadMorePokemons = async () => {
         console.log("fetching more pokemons");
-        const offset = pokemonList.length;
+        const offset = pokemons.length;
         setLoadingMore(true);
 
         const newPokemons = await fetchPokemons(
@@ -61,48 +61,93 @@ function App() {
         <div className="container">
             <h1>Pokedex</h1>
             <div className="list">
-                <Searchbox />
-                <ul>
-                    {loading
-                        ? "loading..."
-                        : pokemonList.map((el) => (
-                              <li key={el.name}>
-                                  <Pokemon
-                                      name={el.name}
-                                      sprite={el.sprites.front_default}
-                                      types={el.types
-                                          .map(
-                                              (typesElement) =>
-                                                  typesElement.type.name
-                                          )
-                                          .join(", ")}
-                                      height={el.height}
-                                      weight={el.height}
-                                  />
-                              </li>
-                          ))}
-                    {loadingMore ? (
-                        "loading..."
-                    ) : (
-                        <button onClick={loadMorePokemons}>load more</button>
-                    )}
-                </ul>
+                {loading ? "loading..." : <PokemonList list={pokemons} />}
+
+                {loadingMore ? (
+                    "loading..."
+                ) : (
+                    <button onClick={loadMorePokemons}>load more</button>
+                )}
             </div>
         </div>
     );
 }
 
-const Pokemon = (props) => {
+//sortBy === "" || "name" || "type"
+const PokemonList = ({ list }) => {
+    const [sortBy, setSortBy] = useState("");
+
+    const sortList = (listToSort) => {
+        console.log("sorting");
+        switch (sortBy) {
+            case "name":
+                console.log(list);
+                return listToSort.sort((a, b) =>
+                    a[sortBy].localeCompare(b[sortBy])
+                );
+            case "type":
+                return listToSort.sort((a, b) =>
+                    a.types[0].type.name.localeCompare(b.types[0].type.name)
+                );
+            default:
+                return listToSort;
+        }
+        /* if (sortBy !== "default") {
+            //sorts the list by comparing either name or type property alphabetically
+            if (sortBy === "name") {
+                list.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+            } else {
+                list.sort((a, b) =>
+                    a.types[0].type.name.localeCompare(b.types[0].type.name)
+                );
+            }
+        } */
+    };
+
     return (
-        <>
-            name: {props.name}, type: {props.types}{" "}
-            <img src={props.sprite} alt="" />
-        </>
+        <ul>
+            sort by:
+            <select onChange={(e) => setSortBy(e.target.value)}>
+                <option value={""} hidden>
+                    -
+                </option>
+                <option value={"name"}>name</option>
+                <option value={"type"}>type</option>
+            </select>
+            {sortList(list).map((el) => (
+                <li key={el.name}>
+                    <Pokemon
+                        name={el.name}
+                        sprite={el.sprites.front_default}
+                        types={el.types
+                            .map((typesElement) => typesElement.type.name)
+                            .join(", ")}
+                        height={el.height}
+                        weight={el.weight}
+                    />
+                </li>
+            ))}
+        </ul>
     );
 };
 
-const Searchbox = (props) => {
-    return <>search, sort by</>;
+const Pokemon = (props) => {
+    //make sprites small when unclicked, make them scale with height when clicked (add a ruler next to the sprite)
+    //maybe animate the enlargement
+    return (
+        <div style={{ display: "flex" }}>
+            <div className="textbox">
+                <h2>{props.name}</h2>
+                type: {props.types}
+            </div>{" "}
+            <img src={props.sprite} alt="" />
+        </div>
+    );
 };
+
+//probably not necessary
+/* const Searchbox = (props) => {
+    return <>search, sort by</>;
+}; */
 
 export default App;
