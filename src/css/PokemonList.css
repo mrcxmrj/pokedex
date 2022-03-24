@@ -23,6 +23,7 @@
 .stats > h2,
 .stats > h4 {
     margin: 0;
+    font-weight: 400;
 }
 
 .moreStats {
@@ -57,4 +58,20 @@
 .pokeball {
     animation: rotating 2s ease-in-out infinite;
     max-height: 3rem;
+}
+
+#sortSelect {
+    border-color: var(--secondary-color);
+    margin-left: 0.25rem;
+}
+
+.settingBar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.settingBar:first-child {
+    display: flex;
+    align-items: center;
 }

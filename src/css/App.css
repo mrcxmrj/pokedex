@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap");
+
 * {
     box-sizing: inherit;
 }
@@ -7,17 +9,17 @@
     --primary-color: #000;
     --secondary-color: #cfcfcf;
     --background-color: #fff;
-    /* --font-family-name: "Handlee";
-    --font-generic-family: cursive; */
+    --font-family-name: "Lato";
+    --font-generic-family: sans-serif;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
     :root {
-        --primary-color: #fff;
-        --secondary-color: #7a7a7a;
-        --background-color: #333333;
+        --primary-color: #eeeeee;
+        --secondary-color: #393e46;
+        --background-color: #222831;
     }
-} */
+}
 
 body {
     font-family: var(--font-family-name), var(--font-generic-family);
@@ -42,16 +44,20 @@ body {
 
 .loadButton {
     height: 3rem;
+}
+
+button {
     cursor: pointer;
     color: var(--primary-color);
     border: 0.1rem solid var(--secondary-color);
     padding-right: 1rem;
     padding-left: 1rem;
     background: none;
+    min-height: 2rem;
 
     font: inherit;
 }
 
-.loadButton:hover {
+button:hover {
     background-color: var(--secondary-color);
 }

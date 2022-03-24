@@ -61,7 +61,7 @@ function App() {
 
     return (
         <div className="container">
-            <h1 class="title">Pokedex</h1>
+            <h1 className="title">Pokedex</h1>
             {loading ? <Loader /> : <PokemonList list={pokemons} />}
 
             <div className="footer">
