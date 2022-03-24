@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { PokemonList } from "./PokemonList";
 
 // cache only stores 20 first pokemons
 const getCachedPokemons = () => JSON.parse(localStorage.getItem("pokemonList"));
@@ -72,82 +73,5 @@ function App() {
         </div>
     );
 }
-
-//sortBy === "" || "name" || "type"
-const PokemonList = ({ list }) => {
-    const [sortBy, setSortBy] = useState("");
-
-    const sortList = (listToSort) => {
-        console.log("sorting");
-        switch (sortBy) {
-            case "name":
-                console.log(list);
-                return listToSort.sort((a, b) =>
-                    a[sortBy].localeCompare(b[sortBy])
-                );
-            case "type":
-                return listToSort.sort((a, b) =>
-                    a.types[0].type.name.localeCompare(b.types[0].type.name)
-                );
-            default:
-                return listToSort;
-        }
-        /* if (sortBy !== "default") {
-            //sorts the list by comparing either name or type property alphabetically
-            if (sortBy === "name") {
-                list.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
-            } else {
-                list.sort((a, b) =>
-                    a.types[0].type.name.localeCompare(b.types[0].type.name)
-                );
-            }
-        } */
-    };
-
-    return (
-        <ul>
-            sort by:
-            <select onChange={(e) => setSortBy(e.target.value)}>
-                <option value={""} hidden>
-                    -
-                </option>
-                <option value={"name"}>name</option>
-                <option value={"type"}>type</option>
-            </select>
-            {sortList(list).map((el) => (
-                <li key={el.name}>
-                    <Pokemon
-                        name={el.name}
-                        sprite={el.sprites.front_default}
-                        types={el.types
-                            .map((typesElement) => typesElement.type.name)
-                            .join(", ")}
-                        height={el.height}
-                        weight={el.weight}
-                    />
-                </li>
-            ))}
-        </ul>
-    );
-};
-
-const Pokemon = (props) => {
-    //make sprites small when unclicked, make them scale with height when clicked (add a ruler next to the sprite)
-    //maybe animate the enlargement
-    return (
-        <div style={{ display: "flex" }}>
-            <div className="textbox">
-                <h2>{props.name}</h2>
-                type: {props.types}
-            </div>{" "}
-            <img src={props.sprite} alt="" />
-        </div>
-    );
-};
-
-//probably not necessary
-/* const Searchbox = (props) => {
-    return <>search, sort by</>;
-}; */
 
 export default App;
