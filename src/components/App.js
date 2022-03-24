@@ -61,14 +61,18 @@ function App() {
 
     return (
         <div className="container">
-            <h1>Pokedex</h1>
+            <h1 class="title">Pokedex</h1>
             {loading ? <Loader /> : <PokemonList list={pokemons} />}
 
-            {loadingMore ? (
-                <Loader />
-            ) : (
-                <button onClick={loadMorePokemons}>load more</button>
-            )}
+            <div className="footer">
+                {loadingMore ? (
+                    <Loader />
+                ) : (
+                    <button className="loadButton" onClick={loadMorePokemons}>
+                        load more
+                    </button>
+                )}
+            </div>
         </div>
     );
 }

@@ -25,15 +25,18 @@ export const PokemonList = ({ list }) => {
 
     return (
         <div className="content">
-            sort by:
-            <select onChange={(e) => setSortBy(e.target.value)}>
-                <option value={""} hidden>
-                    -
-                </option>
-                <option value={"name"}>name</option>
-                <option value={"type"}>type</option>
-            </select>
             <ul className="pokemonList">
+                <label htmlFor="sortSelect">sort by:</label>
+                <select
+                    id="sortSelect"
+                    onChange={(e) => setSortBy(e.target.value)}
+                >
+                    <option value={""} hidden>
+                        -
+                    </option>
+                    <option value={"name"}>name</option>
+                    <option value={"type"}>type</option>
+                </select>
                 {sortList(list).map((el) => (
                     <li key={el.name} className="pokemonListElement">
                         <Pokemon

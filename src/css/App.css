@@ -30,3 +30,28 @@ body {
     max-width: 43.75rem;
     margin: auto;
 }
+
+.title {
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.loadButton {
+    height: 3rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    border: 0.1rem solid var(--secondary-color);
+    padding-right: 1rem;
+    padding-left: 1rem;
+    background: none;
+
+    font: inherit;
+}
+
+.loadButton:hover {
+    background-color: var(--secondary-color);
+}
