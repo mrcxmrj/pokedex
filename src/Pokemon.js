@@ -8,19 +8,23 @@ export const Pokemon = (props) => {
     return (
         <div
             onClick={() => setDetailsHidden((currentState) => !currentState)}
-            style={{ display: "flex" }}
+            className={"pokemon"}
         >
-            <div className="textbox">
-                <h2>{props.name}</h2>
-                type: {props.types}
-            </div>{" "}
-            <img src={props.sprite} alt="" />
-            {detailsHidden ? null : (
-                <div className="stats">
-                    weight: {props.weight}
+            <img
+                className={`sprite${detailsHidden ? "" : "Large"}`}
+                src={props.sprite}
+                alt=""
+            />
+            <div className="stats">
+                <h2>{props.name} </h2>
+                <h4>type: {props.types}</h4>
+
+                <div className={`moreStats${detailsHidden ? "Hidden" : ""}`}>
                     height: {props.height}
+                    <br />
+                    weight: {props.weight}
                 </div>
-            )}
+            </div>
         </div>
     );
 };

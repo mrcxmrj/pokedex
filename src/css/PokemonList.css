@@ -1,0 +1,43 @@
+.pokemonList {
+    list-style-type: none;
+}
+.pokemonListElement {
+    padding: 0.5rem 0 0.5rem 0;
+    border-bottom: 0.0625rem solid var(--secondary-color);
+}
+
+.pokemon {
+    display: flex;
+    transition: margin-left 0.1s ease-in-out;
+}
+.pokemon:hover {
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: margin-left 0.1s ease-in-out;
+}
+
+.stats > h2,
+.stats > h4 {
+    margin: 0;
+}
+
+.moreStats {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+.moreStatsHidden {
+    opacity: 0;
+    height: 0;
+}
+
+.sprite {
+    max-height: 2.8125rem;
+    width: auto;
+    transition: max-height 0.2s ease-in;
+}
+
+.spriteLarge {
+    max-height: 6rem;
+    width: auto;
+    transition: max-height 0.2s ease-out;
+}

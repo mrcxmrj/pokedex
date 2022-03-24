@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pokemon } from "./Pokemon";
+import "./css/PokemonList.css";
 
 //sortBy === "" || "name" || "type"
 export const PokemonList = ({ list }) => {
@@ -23,7 +24,7 @@ export const PokemonList = ({ list }) => {
     };
 
     return (
-        <ul>
+        <div className="content">
             sort by:
             <select onChange={(e) => setSortBy(e.target.value)}>
                 <option value={""} hidden>
@@ -32,19 +33,21 @@ export const PokemonList = ({ list }) => {
                 <option value={"name"}>name</option>
                 <option value={"type"}>type</option>
             </select>
-            {sortList(list).map((el) => (
-                <li key={el.name}>
-                    <Pokemon
-                        name={el.name}
-                        sprite={el.sprites.front_default}
-                        types={el.types
-                            .map((typesElement) => typesElement.type.name)
-                            .join(", ")}
-                        height={el.height}
-                        weight={el.weight}
-                    />
-                </li>
-            ))}
-        </ul>
+            <ul className="pokemonList">
+                {sortList(list).map((el) => (
+                    <li key={el.name} className="pokemonListElement">
+                        <Pokemon
+                            name={el.name}
+                            sprite={el.sprites.front_default}
+                            types={el.types
+                                .map((typesElement) => typesElement.type.name)
+                                .join(", ")}
+                            height={el.height}
+                            weight={el.weight}
+                        />
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 };

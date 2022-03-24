@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/App.css";
 import { useEffect, useState } from "react";
 import { PokemonList } from "./PokemonList";
 
@@ -61,15 +61,14 @@ function App() {
     return (
         <div className="container">
             <h1>Pokedex</h1>
-            <div className="list">
-                {loading ? "loading..." : <PokemonList list={pokemons} />}
 
-                {loadingMore ? (
-                    "loading..."
-                ) : (
-                    <button onClick={loadMorePokemons}>load more</button>
-                )}
-            </div>
+            {loading ? "loading..." : <PokemonList list={pokemons} />}
+
+            {loadingMore ? (
+                "loading..."
+            ) : (
+                <button onClick={loadMorePokemons}>load more</button>
+            )}
         </div>
     );
 }
