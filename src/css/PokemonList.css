@@ -41,3 +41,16 @@
     width: auto;
     transition: max-height 0.2s ease-out;
 }
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.pokeball {
+    animation: rotating 2s ease-in-out infinite;
+    max-height: 3rem;
+}

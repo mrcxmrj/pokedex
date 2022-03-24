@@ -1,6 +1,7 @@
-import "./css/App.css";
+import "../css/App.css";
 import { useEffect, useState } from "react";
 import { PokemonList } from "./PokemonList";
+import { Loader } from "./Loader";
 
 // cache only stores 20 first pokemons
 const getCachedPokemons = () => JSON.parse(localStorage.getItem("pokemonList"));
@@ -61,11 +62,10 @@ function App() {
     return (
         <div className="container">
             <h1>Pokedex</h1>
-
-            {loading ? "loading..." : <PokemonList list={pokemons} />}
+            {loading ? <Loader /> : <PokemonList list={pokemons} />}
 
             {loadingMore ? (
-                "loading..."
+                <Loader />
             ) : (
                 <button onClick={loadMorePokemons}>load more</button>
             )}

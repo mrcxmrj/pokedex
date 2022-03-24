@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pokemon } from "./Pokemon";
-import "./css/PokemonList.css";
+import "../css/PokemonList.css";
 
 //sortBy === "" || "name" || "type"
 export const PokemonList = ({ list }) => {
