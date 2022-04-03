@@ -1,5 +1,6 @@
 .pokemonList {
     list-style-type: none;
+    padding: 0;
 }
 .pokemonListElement {
     padding: 0.5rem 0 0.5rem 0;
